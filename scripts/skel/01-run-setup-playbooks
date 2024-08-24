@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Copyright (c) Andrei Jiroh Halili
+# SPDX-License-Identifier: MPL-2.0
+# 
+# This script installs ansible and OpenSSH cleint+server on $DISTRO
+# in order to run the playbooks.
+set -e
+
+if [[ $DEBUG != "" ]]; then
+  set -x
+fi
+
+ROOT="$( cd -- "$(dirname "$0/")/../.." >/dev/null 2>&1 ; pwd -P )"
+USERNAME=${ANSIBLE_VAR_USERNAME:-"ajhalili2006"}
+HOSTNAME=${ANSIBLE_VAR_HOSTNAME:-"ajhalili2006-lab"}
+
+ansible-playbook "$ROOT/ansible/archlinux-setup.yml" --extra-vars "username=$USERNAME" -vvvv

@@ -1,0 +1,14 @@
+name: "Tests"
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  archlinux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run tests in Docker container
+        run: |
+          docker run --pull=always --rm -it -e DEBUG=true -v $PWD:/bootstrap archlinux /bootstrap/scripts/bootstrap.sh

@@ -19,6 +19,11 @@
           - htop
           - btop
           - tailscale
+          - go
+          - nodejs
+          - python
+          - python-pip
+          - python-pipenv
     - name: Create new group for passwordless doas
       ansible.builtin.group:
         name: wheel-nopass
@@ -47,7 +52,7 @@
       ansible.builtin.script:
         chdir: "/usr/local/share"
         cmd: |
-          /usr/bin/find yay \( -type d -exec chmod u+rwx,g+rwx,o+rx {} \; -o -type f -exec chmod u+rw,g+rw,o+r {} \; \)
+          /usr/bin/find yay \( -type d -exec chmod u+rwx,g+rwx,o+rw {} \; -o -type f -exec chmod u+rw,g+rw,o+rw {} \; \)
     - name: "Install yay"
       become: true
       become_method: ansible.builtin.su

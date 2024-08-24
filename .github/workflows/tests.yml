@@ -11,4 +11,4 @@ jobs:
       - uses: actions/checkout@v4
       - name: Run tests in Docker container
         run: |
-          docker run --pull=always --rm -it -e DEBUG=true -v $PWD:/bootstrap archlinux /bootstrap/scripts/bootstrap.sh
+          docker run --pull=always --rm -e DEBUG=true -v $PWD:/bootstrap archlinux /bootstrap/scripts/bootstrap.sh

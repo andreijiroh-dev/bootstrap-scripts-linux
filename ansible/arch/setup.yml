@@ -1,0 +1,57 @@
+- name: "Install tools from official repo"
+  hosts: localhost
+  vars_files:
+    - /vars/base.yml
+  tasks:
+    - name: "Update packages and cache"
+      community.general.pacman:
+        update_cache: true
+        upgrade: true
+    - name: "Install tools"
+      community.general.pacman:
+        name:
+          - git
+          - perl-authen-sasl
+          - perl-io-socket-ssl
+          - nano
+          - base-devel
+          - doas
+          - htop
+          - btop
+          - tailscale
+    - name: Create new group for passwordless doas
+      ansible.builtin.group:
+        name: wheel-nopass
+    - name: Setup regular user
+      ansible.builtin.user:
+        name: "{{ username }}"
+        shell: "/usr/bin/bash"
+        groups:
+          - wheel
+          - wheel-nopass
+          - adm
+        password: "plsResetAfterLogin420"
+    - name: Copy doas config
+      ansible.builtin.copy:
+        src: ../../etc/doas.conf
+        dest: /etc/doas.conf
+    - name: Copy makepkg config
+      ansible.builtin.copy:
+        src: ../../etc/makepkg_amd64.conf
+        dest: /etc/makepkg.conf
+    - name: "Clone yay sources from AUR"
+      ansible.builtin.git:
+        repo: "https://aur.archlinux.org/yay"
+        dest: "/usr/local/share/yay"
+    - name: Fix permissions for regular user access
+      ansible.builtin.script:
+        chdir: "/usr/local/share"
+        cmd: |
+          /usr/bin/find yay \( -type d -exec chmod u+rwx,g+rwx,o+rx {} \; -o -type f -exec chmod u+rw,g+rw,o+r {} \; \)
+    - name: "Install yay"
+      become: true
+      become_method: ansible.builtin.su
+      become_user: "{{ username }}"
+      ansible.builtin.script:
+        chdir: "/usr/local/share/yay"
+        cmd: /usr/bin/makepkg -si

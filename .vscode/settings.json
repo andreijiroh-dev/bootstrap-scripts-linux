@@ -1,0 +1,7 @@
+{
+    "ansible.ansible.reuseTerminal": true,
+    "git.alwaysSignOff": true,
+    "conventionalCommits.scopes": [
+        "global"
+    ],
+}

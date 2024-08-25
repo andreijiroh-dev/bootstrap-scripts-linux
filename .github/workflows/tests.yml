@@ -5,6 +5,17 @@ on:
   workflow_dispatch:
 
 jobs:
+  alpinelinux:
+    name: "Alpine Linux on chroot"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup chroot
+        run: sudo ./scripts/alpine-chroot-install -b edge -p "build-base ca-certificates ssl_client bash coreutils"
+      - name: Prep
+        run: sudo cp ${GITHUB_WORKSPACE} /alpine/bootstrap -rv
+      - name: Exec script
+        run: /alpine/enter-chroot /bootstrap/scripts/bootstrap.sh
   archlinux:
     runs-on: ubuntu-latest
     steps:

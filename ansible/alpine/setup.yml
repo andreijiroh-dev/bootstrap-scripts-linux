@@ -1,0 +1,33 @@
+- name: "Install tools and setup doas"
+  hosts: localhost
+  vars_files:
+    - /vars/base.yml
+  tasks:
+    - name: Update packages
+      community.general.apk:
+        repository:
+          - https://dl-cdn.alpinelinux.org/alpine/edge/main
+          - https://dl-cdn.alpinelinux.org/alpine/edge/community
+          - https://dl-cdn.alpinelinux.org/alpine/edge/testing
+        update_cache: true
+        upgrade: true
+    - name: Install tools
+      community.general.apk:
+        name:
+          - alpine-sdk
+          - bash
+          - coreutils
+          - nano
+          - wget
+          - curl
+          - git-email
+          - doas
+          - shadow # for ansible.builtin.group to work
+    - name: Create new group for passwordless doas
+      ansible.builtin.group:
+        name: wheel-nopass
+    - name: Copy doas config
+      ansible.builtin.copy:
+        src: ../../etc/doas.conf
+        dest: /etc/doas.conf
+

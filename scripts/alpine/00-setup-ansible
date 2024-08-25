@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Copyright (c) Andrei Jiroh Halili
+# SPDX-License-Identifier: MPL-2.0
+# 
+# This script installs ansible and OpenSSH cleint+server on $DISTRO
+# in order to run the playbooks.
+set -e
+
+if [[ $DEBUG != "" ]]; then
+  set -x
+fi
+
+if command -v ansible >> /dev/null; then
+  echo "[setup-ansible] Looking like ansible package is installed, skipping script"
+  exit 0
+fi
+
+# insert the rest of the commands here
+apk add ansible ansible-lint ansible-core-doc

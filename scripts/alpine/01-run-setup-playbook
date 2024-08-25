@@ -14,4 +14,4 @@ ROOT="$( cd -- "$(dirname "$0/")/../.." >/dev/null 2>&1 ; pwd -P )"
 USERNAME=${ANSIBLE_VAR_USERNAME:-"ajhalili2006"}
 HOSTNAME=${ANSIBLE_VAR_HOSTNAME:-"ajhalili2006-lab"}
 
-ansible-playbook "$ROOT/ansible/arch/setup.yml" --extra-vars "username=$USERNAME" -vvvv
+ansible-playbook "$ROOT/ansible/alpine/setup.yml" --extra-vars "username=$USERNAME" -vvvv

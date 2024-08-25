@@ -32,7 +32,7 @@
         name: "{{ username }}"
         shell: "/usr/bin/bash"
         groups:
-          - wheel
+          #- wheel
           - wheel-nopass
           - adm
         password: "plsResetAfterLogin420"
@@ -51,12 +51,13 @@
     - name: Fix permissions for regular user access
       ansible.builtin.script:
         chdir: "/usr/local/share"
-        cmd: |
-          /usr/bin/find yay \( -type d -exec chmod u+rwx,g+rwx,o+rw {} \; -o -type f -exec chmod u+rw,g+rw,o+rw {} \; \)
+        cmd: /usr/bin/find yay \( -type d -exec chmod u+rwx,g+rwx,o+rw {} \; -o -type f -exec chmod u+rw,g+rw,o+rw {} \; \)
     - name: "Install yay"
       become: true
       become_method: ansible.builtin.su
       become_user: "{{ username }}"
       ansible.builtin.script:
         chdir: "/usr/local/share/yay"
-        cmd: /usr/bin/makepkg -si
+        cmd: |
+          /usr/bin/git config --global --add safe.directory /usr/local/share/yay
+          /usr/bin/makepkg -si

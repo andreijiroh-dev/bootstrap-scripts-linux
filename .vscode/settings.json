@@ -1,4 +1,5 @@
 {
+    "ansible.python.interpreterPath": "/home/gildedguy/.local/share/virtualenvs/linux-bootstrapper-FfiIBgHN/bin/python",
     "ansible.ansible.reuseTerminal": true,
     "git.alwaysSignOff": true,
     "conventionalCommits.scopes": [

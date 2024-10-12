@@ -6,7 +6,7 @@ fresh Linux install, containing a combination of shell scripts and Ansible playb
 ## Usage
 
 > [!warning]
-> Most Ansible playbooks with `*-setup.yml` in filename are intended for use in
+> The setup playbook in each distro is intended for first-time setup post-install.
 
 This repository should be accessed as a local copy in a portable storage, perferrably
 in a [Ventoy]-like setup. Once you mounted the partition where it is stored, run
